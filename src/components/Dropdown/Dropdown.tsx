@@ -1,7 +1,7 @@
 ﻿import React from 'react'; 
 import styles from './Dropdown.module.css';
 
-interface DropdownItem {
+export interface DropdownItem {
     id: string;
     name: string;
     image: string;
@@ -9,7 +9,7 @@ interface DropdownItem {
 
 const Dropdown: React.FC<{
     items: DropdownItem[];
-    onSelect: (id: string) => void;
+    onSelect: (item: DropdownItem) => void;
     maxItems?: number;
 }> = ({
     items,
@@ -19,8 +19,8 @@ const Dropdown: React.FC<{
     return (
         <ul className={styles.dropdown}>
             {items.slice(0, maxItems).map((item) => (
-                <li className={styles.resultItem} key={item.id} onClick={()=> onSelect(item.id)}>
-                    <img src={item.image} alt={item.name} className={styles.resultImage} />
+                <li className={styles.resultItem} key={item.id} onClick={()=> onSelect(item)}>
+                    {item.image && <img src={item.image} alt={item.name} className={styles.resultImage} />}
                     <span className={styles.resultText}>{item.name}</span>
                 </li>
             ))}

@@ -4,6 +4,7 @@ import styles from './NewCocktailForm.module.css';
 import TextInput from '@/components/Inputs/TextInput/TextInput';
 import { Cocktail } from '../../../cocktails/types';
 import { validateAndReadImage } from '@/utils/imageUtils';
+import TextAreaInput from '../../../../components/Inputs/TextAreaInput/TextAreaInput';
 
 interface Props {
     onSubmit: (data: Cocktail) => void;
@@ -69,7 +70,8 @@ const NewCocktailForm: React.FC<Props> = ({ onSubmit }) => {
                 value={name}
             />
 
-            <TextInput
+            <TextAreaInput
+                style={{ height: '200px' }}
                 label="Instructions"
                 placeholder="Instructions"
                 register={register('instructions', { required: 'Instructions are required' })}
@@ -104,17 +106,17 @@ const NewCocktailForm: React.FC<Props> = ({ onSubmit }) => {
                             value={ingredients?.[index]?.measure}
                         />
 
-                        <button style={{ marginTop: '25px' }} type="button" onClick={() => remove(index)}>
+                        <button style={{ marginTop: '25px' }} type="button" className='btn-red' onClick={() => remove(index)}>
                             Remove
                         </button>
                     </div>
                 ))}
-                <button type="button" onClick={() => append({ ingredient: '', measure: '' })}>
+                <button type="button" className='btn-blue' onClick={() => append({ ingredient: '', measure: '' })}>
                     Add Ingredient
                 </button>
             </fieldset>
 
-            <button type="submit">Save Cocktail</button>
+            <button type="submit" className='btn-blue'>Save Cocktail</button>
         </form>
     );
 };

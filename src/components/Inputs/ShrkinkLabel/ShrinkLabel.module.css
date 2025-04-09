@@ -1,10 +1,4 @@
-﻿.inputErrorText {
-    font-size: 12px;
-    color: red !important; 
-    position: relative;
-}
-
-.customPlaceholder {
+﻿.customPlaceholder {
     position: relative;
     bottom: -35px;
     left: 10px;

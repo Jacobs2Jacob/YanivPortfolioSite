@@ -6,6 +6,7 @@ import { getStorageCocktailsByFirstLetter } from '../services/storageCocktailSer
 
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
+// currently getting data from both sources (api / storage), can be seperated with hook resolver or datasources param, but for the app needs its overengineering
 export const useCocktailAlphabeticQuery = () => {
     const [items, setItems] = useState<Cocktail[]>([]);
     const [letterIndex, setLetterIndex] = useState(0);

@@ -42,8 +42,8 @@ input, button, textarea, select {
     font: inherit;
     outline: none;
 }
-
-button[type='button'] {
+ 
+.btn-red {
     background: #f44336;
     color: #fff;
     border: none;
@@ -54,14 +54,14 @@ button[type='button'] {
     transition: background 0.2s ease;
 }
 
-button[type='button']:hover {
+.btn-red:hover {
     background: #d32f2f;
 }
 
-button[type='submit'] {
+.btn-blue {
     background: #0070f3;
     color: white;
-    padding: 0.75rem;
+    padding: 0.45rem;
     font-size: 1rem;
     border: none;
     border-radius: 6px;
@@ -69,7 +69,7 @@ button[type='submit'] {
     transition: background 0.2s ease;
 }
 
-button[type='submit']:hover {
+.btn-blue:hover {
     background: #005bb5;
 }
 

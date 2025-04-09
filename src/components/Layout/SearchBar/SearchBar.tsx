@@ -1,8 +1,8 @@
-﻿import React, { useState, useCallback, useRef } from 'react';
+﻿import React, { useState, useCallback, useRef, useEffect } from 'react';
 import styles from './SearchBar.module.css';
 import { useDebounce } from '@/hooks/useDebounce';
-import Dropdown from '../../Dropdown/Dropdown'; 
-import { useCocktailQueryByName } from '../../../features/cocktails/hooks/useCocktailQueryByName';
+import Dropdown, { DropdownItem } from '../../Dropdown/Dropdown'; 
+import { useCocktailQueryByName } from '@/features/cocktails/hooks/useCocktailQueryByName';
 
 interface SearchBarProps {
     placeholder?: string;
@@ -21,29 +21,40 @@ const SearchBar: React.FC<SearchBarProps> = ({
     const { dataMemoized: cocktails } = useCocktailQueryByName(debouncedTerm); 
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-      
-    // item selected
-    const handleSelect = useCallback((id: string) => {
-        if (onSelect) { 
-            onSelect(id);
-        }
+    const blurTimeoutRef = useRef<number | null>(null);
 
-        setIsOpen(false);
-    }, [onSelect]);
-
-    // each keypress
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTerm(e.target.value);
-    };
+    // clear timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (blurTimeoutRef.current) {
+                clearTimeout(blurTimeoutRef.current);
+            }
+        };
+    }, []);
 
     const handleBlur = () => {
-        setTimeout(() => {
+        blurTimeoutRef.current = window.setTimeout(() => {
             if (dropdownRef.current && dropdownRef.current.contains(document.activeElement)) {
                 return;
             }
 
             setIsOpen(false);
         }, 200);
+    };
+
+    // item selected
+    const handleSelect = useCallback((item: DropdownItem) => {
+        if (onSelect) { 
+            onSelect(item.id);
+        }
+
+        setTerm(item.name);
+        setIsOpen(false);
+    }, [onSelect]);
+
+    // each keypress
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTerm(e.target.value);
     };
 
     return (

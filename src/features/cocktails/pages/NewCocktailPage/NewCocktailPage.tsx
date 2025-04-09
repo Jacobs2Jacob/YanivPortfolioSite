@@ -12,9 +12,15 @@ const NewCocktailPage: React.FC = () => {
     const handleOnSubmit = (data: Cocktail) => {
         addCocktail(data);
 
-        openModal(<div>
+        openModal(<div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center'
+                        }}>
                     <h2>Saved!</h2>
-                    <button type='button' onClick={closeModal}>Close</button>
+                    <button type='button' onClick={closeModal} 
+                            className='btn-blue'
+                            style={{ marginTop: '15px' }}>Close</button>
                  </div>
         );
     }
