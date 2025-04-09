@@ -8,7 +8,7 @@ import { useModal } from '../contexts/ModalContext';
 const AppLayout: React.FC = () => {
     const navigate = useNavigate();
     const { closeModal, isOpen, content } = useModal();
-
+     
     return (
         <>
             <Navbar />

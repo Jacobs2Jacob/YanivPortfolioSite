@@ -6,12 +6,7 @@ export const searchCocktails = async (input: string): Promise<Cocktail[]> => {
 
     try {
         const res = await cocktailsAPI.get(`/search.php?s=${input}`);
-         
-        if (Array.isArray(res.data.drinks)) {
-            return res.data.drinks.map(mapCocktailFromApi);
-        }
-
-        return [];
+        return Array.isArray(res.data.drinks) ? res.data.drinks.map(mapCocktailFromApi) : [];
     }
     catch (e) {
         console.error("Failed searching cocktails by name", e);
@@ -23,12 +18,7 @@ export const getCocktailsByFirstLetter = async (letter: string): Promise<Cocktai
 
     try {
         const res = await cocktailsAPI.get(`/search.php?f=${letter}`);
-        
-        if (Array.isArray(res.data.drinks)) {
-            return res.data.drinks.map(mapCocktailFromApi);
-        }
-
-        return [];
+        return Array.isArray(res.data.drinks) ? res.data.drinks.map(mapCocktailFromApi) : [];
     }
     catch (e) {
         console.error("Failed searching cocktails by first letter", e);
