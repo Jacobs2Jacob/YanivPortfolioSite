@@ -1,0 +1,70 @@
+.carouselWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    padding: 1rem 2rem;
+    box-sizing: border-box;
+}
+
+.carousel {
+    display: flex;
+    gap: 1rem;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding: 1rem 0;
+}
+
+.card {
+    cursor: pointer;
+    flex: 0 0 auto;
+    width: 150px;
+    scroll-snap-align: start;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 0.5rem;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.image {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.label {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.navButton {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    color: #333;
+    user-select: none;
+    transition: color 0.2s;
+}
+
+    .navButton:hover {
+        color: #0070f3;
+    }
+
+.loading {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #666;
+}
