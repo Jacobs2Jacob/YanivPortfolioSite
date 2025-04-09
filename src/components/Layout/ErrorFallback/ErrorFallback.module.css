@@ -65,18 +65,7 @@ body {
     background-color: #39bbdb;
     box-shadow: 0 0 0 15px #f0f0f0;
 }
-
-.errorPage .outer .middle .inner .innerCircle span {
-    font-size: 11em;
-    font-weight: 700;
-    line-height: 1.2em;
-    display: block;
-    -webkit-transition: all .4s;
-    transition: all .4s;
-    text-align: center;
-    color: #e0e0e0;
-}
-
+ 
 .errorPage .outer .middle .inner .innerStatus {
     font-size: 20px;
     display: block;
