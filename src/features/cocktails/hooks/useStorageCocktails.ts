@@ -13,9 +13,16 @@ export const useStorageCocktails = () => {
 
     // Add cocktail and update state
     const addCocktail = useCallback((cocktail: Cocktail) => {
-        addStorageCocktail(cocktail);
-        const updated = getStorageCocktails();
-        setCocktails(updated);
+        const storageCocktail = addStorageCocktail(cocktail);
+
+        if (storageCocktail) {
+            const updated = getStorageCocktails();
+            setCocktails(updated);
+            return updated;
+        }
+        else {
+            return null;
+        }
     }, []);
 
     return {

@@ -10,19 +10,36 @@ const NewCocktailPage: React.FC = () => {
     const { openModal, closeModal } = useModal();
 
     const handleOnSubmit = (data: Cocktail) => {
-        addCocktail(data);
+        const addedCocktail = addCocktail(data);
 
-        openModal(<div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center'
-                        }}>
-                    <h2>Saved!</h2>
-                    <button type='button' onClick={closeModal} 
-                            className='btn-blue'
-                            style={{ marginTop: '15px' }}>Close</button>
-                 </div>
-        );
+        // success
+        if (addedCocktail) {
+            openModal(<div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+            }}>
+                <h2>Saved!</h2>
+                <button type='button' onClick={closeModal}
+                    className='btn-blue'
+                    style={{ marginTop: '15px' }}>Close</button>
+            </div>
+            );
+        }
+        // fail
+        else {
+            openModal(<div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+            }}>
+                <h2>Failed to save Cocktail</h2>
+                <button type='button' onClick={closeModal}
+                    className='btn-blue'
+                    style={{ marginTop: '15px' }}>Close</button>
+            </div>
+            );
+        }
     }
 
     return (

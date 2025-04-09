@@ -22,15 +22,23 @@ export const getStorageCocktailById = (id: string): Cocktail | null => {
         return cocktail ?? null;
     }
     catch (e) {
-        console.error(e);
-        throw e;
+        console.error("Failed fetching cocktail by id from storage", e);
+        return null;
     }
 };
 
 export const addStorageCocktail = (cocktail: Cocktail) => {
-    const newCocktails = [...getStorageCocktails(), { ...cocktail, id: generateStorageCocktailId() }];
-    cachedCocktails = newCocktails;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newCocktails));
+    try {
+        const cocktailToAdd = { ...cocktail, id: generateStorageCocktailId() };
+        const newCocktails = [...getStorageCocktails(), cocktailToAdd];
+        cachedCocktails = newCocktails;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(newCocktails));
+        return cocktailToAdd;
+    }
+    catch (e) {
+        console.error("Failed adding cocktail to storage", e);
+        return null;
+    }
 }
 
 export const getStorageCocktailsByFirstLetter = (letter: string) => {

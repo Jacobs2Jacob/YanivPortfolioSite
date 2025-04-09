@@ -14,7 +14,7 @@ export const searchCocktails = async (input: string): Promise<Cocktail[]> => {
         return [];
     }
     catch (e) {
-        console.error(e);
+        console.error("Failed searching cocktails by name", e);
         throw e;
     }
 };
@@ -31,7 +31,7 @@ export const getCocktailsByFirstLetter = async (letter: string): Promise<Cocktai
         return [];
     }
     catch (e) {
-        console.error(e);
+        console.error("Failed searching cocktails by first letter", e);
         throw e;
     }
 };
@@ -43,7 +43,7 @@ export const getCocktailById = async (id: string): Promise<Cocktail | null> => {
         return res.data.drinks?.[0] ? mapCocktailFromApi(res.data.drinks[0]) : null;
     }
     catch (e) {
-        console.error(e);
+        console.error("Failed to fetch cocktail by ID", e);
         throw e;
     }
 };
