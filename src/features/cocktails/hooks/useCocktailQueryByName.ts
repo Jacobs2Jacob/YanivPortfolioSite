@@ -17,28 +17,22 @@ export const useCocktailQueryByName = (query: string = '') => {
 
         if (query) {
             fetchCocktails();
-        } else {
-            setApiResult([]);
         }
     }, [query]);
 
     const dataMemoized = useMemo(() => {
+
         if (!query) {
             return [];
         }
+         
+        const storageCocktails = getStorageCocktails();
 
-        const storageCocktails = getStorageCocktails().filter(c =>
-            c.name.toLowerCase().includes(query.toLowerCase())
-        );
-
-        const merged = [...apiResult, ...storageCocktails];
-
-        // Deduplicate cocktails based on their id
-        const uniqueCocktails = Array.from(
-            merged.reduce((map, cocktail) => map.set(cocktail.id, cocktail), new Map<string, Cocktail>()).values()
-        );
-
-        return uniqueCocktails;
+        // depends on search preffered behaviour
+        const merged = [...apiResult, ...storageCocktails]
+            .filter(f => f.name.toLowerCase().startsWith(query.toLowerCase()));
+         
+        return merged;
     }, [query, apiResult]);
 
     return {

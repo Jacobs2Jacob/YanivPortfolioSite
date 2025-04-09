@@ -1,7 +1,6 @@
 ﻿import React, { useState, useCallback, useRef } from 'react';
 import styles from './SearchBar.module.css';
 import { useDebounce } from '@/hooks/useDebounce';
-import { useClickOutside } from '../../../hooks/useClickOutside';
 import Dropdown from '../../Dropdown/Dropdown'; 
 import { useCocktailQueryByName } from '../../../features/cocktails/hooks/useCocktailQueryByName';
 
@@ -22,14 +21,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
     const { dataMemoized: cocktails } = useCocktailQueryByName(debouncedTerm); 
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-
-    useClickOutside(dropdownRef, () => {
-        setIsOpen(false);
-    });
-
+      
     // item selected
     const handleSelect = useCallback((id: string) => {
-        if (onSelect) {
+        if (onSelect) { 
             onSelect(id);
         }
 
@@ -40,7 +35,17 @@ const SearchBar: React.FC<SearchBarProps> = ({
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTerm(e.target.value);
     };
-     
+
+    const handleBlur = () => {
+        setTimeout(() => {
+            if (dropdownRef.current && dropdownRef.current.contains(document.activeElement)) {
+                return;
+            }
+
+            setIsOpen(false);
+        }, 200);
+    };
+
     return (
         <div className={styles.wrapper}>
             <input
@@ -49,7 +54,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 placeholder={placeholder}
                 onChange={handleChange}
                 className={styles.input}
-                onFocus={()=> setIsOpen(true)}
+                onFocus={() => setIsOpen(true)}
+                onBlur={handleBlur}
             />
 
             {isOpen && debouncedTerm && cocktails.length > 0 && (

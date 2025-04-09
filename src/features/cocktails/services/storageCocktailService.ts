@@ -6,12 +6,13 @@ let cachedCocktails: Cocktail[] | null = null;
 
 export const getStorageCocktails = (): Cocktail[] => {
 
-    if (cachedCocktails !== null) {
+    if (cachedCocktails) {
         return cachedCocktails;
     }
 
     const stored = localStorage.getItem(STORAGE_KEY);
     cachedCocktails = stored ? JSON.parse(stored) : [];
+
     return cachedCocktails ?? [];
 }
 

@@ -13,9 +13,7 @@ const Carousel: React.FC<CarouselProps> = ({ items, onReachEnd, loading }) => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
-
-    useEffect(() => {console.log(items) },[])
-
+     
     const updateScrollButtons = useCallback(() => {
         const el = scrollRef.current;
 

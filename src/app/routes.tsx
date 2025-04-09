@@ -13,7 +13,7 @@ const AppRoutes = () => (
             <Route path="/" element={<AppLayout />}>
                 <Route index element={<HomePage />} />
                 <Route path="cocktail/:id" element={<CocktailDetailPage />} />
-                <Route path="new" element={<NewCocktailPage />} />
+                <Route path="cocktail/new" element={<NewCocktailPage />} />
             </Route>
         </Routes>
     </Suspense>

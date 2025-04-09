@@ -2,16 +2,21 @@ import React from 'react';
 import styles from './NewCocktailPage.module.css';
 import { useStorageCocktails } from '../../hooks/useStorageCocktails';
 import NewCocktailForm from '../../components/NewCocktailForm/NewCocktailForm';
-import { Cocktail } from '../../../cocktails/types';
-import { useNavigate } from 'react-router-dom';
+import { Cocktail } from '@/features/cocktails/types';  
+import { useModal } from '@/contexts/ModalContext';
 
 const NewCocktailPage: React.FC = () => {
-    const { addCocktail } = useStorageCocktails();
-    const navigate = useNavigate();
+    const { addCocktail } = useStorageCocktails(); 
+    const { openModal, closeModal } = useModal();
 
     const handleOnSubmit = (data: Cocktail) => {
         addCocktail(data);
-        navigate('/');
+
+        openModal(<div>
+                    <h2>Saved!</h2>
+                    <button type='button' onClick={closeModal}>Close</button>
+                 </div>
+        );
     }
 
     return (
