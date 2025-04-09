@@ -15,10 +15,12 @@ const CocktailDetailPage: React.FC = () => {
         }
     }, [data])
 
+    // loader indication
     if (isLoading) {
         return <p className={styles.loading}>Loading cocktail...</p>;
     }
 
+    // error indication
     if (error) {
         return <p className={styles.error}>Cocktail not found.</p>;
     }
@@ -33,17 +35,20 @@ const CocktailDetailPage: React.FC = () => {
                 className={styles.image}
             />
 
-            <h2>Ingredients</h2>
-            <ul>
-                {cocktail.ingredients && cocktail.ingredients.map((item) => (
-                    item?.ingredient && <li key={item.ingredient}>
-                        {item.measure} {item.ingredient}
-                    </li>
-                ))}
-            </ul>
+            <div className={styles.card}>
+                <h2 style={{ marginTop: '25px' }}>Ingredients</h2>
+                <ul>
+                    {cocktail.ingredients && cocktail.ingredients.map((item) => (
+                        item?.ingredient && <li key={item.ingredient}>
+                            {item.measure} {item.ingredient}
+                        </li>
+                    ))}
+                </ul>
 
-            <h2>Instructions</h2>
-            <p>{cocktail.instructions}</p>
+                <h2>Instructions</h2>
+                <p>{cocktail.instructions}</p>
+            </div>
+            
         </div>
     );
 };

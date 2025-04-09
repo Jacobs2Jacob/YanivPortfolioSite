@@ -3,13 +3,18 @@ import baseStyles from '../InputBase.module.css';
 import { InputBaseProps } from '../types';
 import ShrinkLabel from '../ShrkinkLabel/ShrinkLabel';
 
-const TextareaInput: React.FC<InputBaseProps> = ({
+interface TextAreaInputProps extends InputBaseProps {
+    maxLength?: number;
+}
+
+const TextareaInput: React.FC<TextAreaInputProps> = ({
     label,
     placeholder,
     error,
     register,
     value = '',
-    style
+    style,
+    maxLength = 200
 }) => {
     const [isFocused, setIsFocused] = useState(false);
     const hasValue = value !== undefined && value !== '';
@@ -21,6 +26,7 @@ const TextareaInput: React.FC<InputBaseProps> = ({
 
             <textarea
                 {...register}
+                maxLength={maxLength}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 value={value}

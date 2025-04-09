@@ -72,6 +72,7 @@ const NewCocktailForm: React.FC<Props> = ({ onSubmit }) => {
 
             <TextAreaInput
                 style={{ height: '200px' }}
+                maxLength={200}
                 label="Instructions"
                 placeholder="Instructions"
                 register={register('instructions', { required: 'Instructions are required' })}

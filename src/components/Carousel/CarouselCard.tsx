@@ -13,7 +13,7 @@ const CarouselCard: React.FC<Props> = ({ item }) => {
 
     return (
         <div className={styles.card} onClick={() => item.navigationUrl && navigate(item.navigationUrl)}>
-            <img src={item.image} alt={item.label} className={styles.image} />
+            {item.image && <img src={item.image} alt={item.label} className={styles.image} />}
             <p className={styles.label}>{item.label}</p>
         </div>
     );
