@@ -42,5 +42,5 @@ export const addStorageCocktail = (cocktail: Cocktail) => {
 }
 
 export const getStorageCocktailsByFirstLetter = (letter: string) => {
-    return getStorageCocktails()?.filter(f => f.name.startsWith(letter));
+    return getStorageCocktails()?.filter(f => f.name.includes(letter));
 }

@@ -31,7 +31,7 @@ export const useCocktailQueryByName = (query: string = '') => {
 
         // depends on search preffered behaviour
         const merged = [...apiResult, ...storageCocktails]
-            .filter(f => f.name.toLowerCase().startsWith(query.toLowerCase()));
+            .filter(f => f.name.toLowerCase().includes(query.toLowerCase()));
          
         return merged;
     }, [query, apiResult]);
