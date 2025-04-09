@@ -7,7 +7,7 @@ import { useCocktailById } from '../../hooks/useCocktailById';
 const CocktailDetailPage: React.FC = () => {
     const { id } = useParams();
     const [cocktail, setCocktail] = useState<Cocktail>();
-    const { data, error, isLoading } = useCocktailById({ id: id!, dataSource: id!.includes('user-') ? 'storage' : 'api' });
+    const { data, error, isLoading } = useCocktailById({ id: id ?? '', dataSource: id?.includes('user-') ? 'storage' : 'api' });
 
     useEffect(() => {
         if (data) {
