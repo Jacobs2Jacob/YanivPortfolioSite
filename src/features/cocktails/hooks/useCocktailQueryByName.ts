@@ -1,45 +1,40 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { searchCocktails } from '../services/cocktailService'; 
 import { Cocktail } from '../types';
 import { getStorageCocktails } from '../services/storageCocktailService';
+import { useDebounce } from '@/hooks/useDebounce';
 
 // currently getting data from both sources (api / storage), can be seperated with hook resolver or datasources param, but for the app needs its overengineering
-export const useCocktailQueryByName = (query: string = '') => {
-    const [apiResult, setApiResult] = useState<Cocktail[]>([]);
+export const useCocktailQueryByName = (query: string = '', debounce: number = 300) => {
+    const debouncedQuery = useDebounce(query, debounce);
+    const [data, setData] = useState<Cocktail[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    useEffect(() => {
-        const fetchCocktails = async () => {
-            setIsLoading(true);
-    
-            const res = await searchCocktails(query);
-
-            setApiResult(res);
-            setIsLoading(false);
-        };
-
-        if (query) {
-            fetchCocktails();
-        }
-    }, [query]);
-
-    const dataMemoized = useMemo(() => {
-
-        if (!query) {
+    const fetchCocktails = useCallback(async () => {
+        if (!debouncedQuery) {
             return [];
         }
-         
-        const storageCocktails = getStorageCocktails();
 
-        // depends on search preffered behaviour
-        const merged = [...apiResult, ...storageCocktails]
-            .filter(f => f.name.toLowerCase().includes(query.toLowerCase()));
-         
-        return merged;
-    }, [query, apiResult]);
+        setIsLoading(true);
+
+        const res = await searchCocktails(debouncedQuery);
+
+        const storageCocktails = getStorageCocktails()
+            .filter(f => f.name.toLowerCase()
+                .includes(debouncedQuery.toLowerCase()));
+
+        const merged = [...res, ...storageCocktails];
+
+        setData(merged);
+        setIsLoading(false);
+    }, [debouncedQuery]);
+
+    useEffect(() => { 
+        fetchCocktails();
+    }, [fetchCocktails]); 
 
     return {
-        dataMemoized,
+        data,
         isLoading
     };
 };

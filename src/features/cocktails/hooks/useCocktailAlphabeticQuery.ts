@@ -30,7 +30,7 @@ export const useCocktailAlphabeticQuery = () => {
 
         const storageCocktails = getStorageCocktailsByFirstLetter(letter) || [];
         const mergedCocktails = [...apiCocktails, ...storageCocktails];
-
+         
         setItems((prev) => [...prev, ...mergedCocktails]);
 
         // increment letter

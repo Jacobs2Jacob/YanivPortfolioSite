@@ -1,7 +1,6 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState } from 'react';
 import styles from './SearchBar.module.css';
-import { useDebounce } from '@/hooks/useDebounce'; 
-import { useCocktailQueryByName } from '@/features/cocktails/hooks/useCocktailQueryByName';
+import { useSearchBar } from '@/contexts/SearchbarContext';
 
 interface SearchBarProps {
     placeholder?: string;
@@ -10,25 +9,31 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
-    placeholder = 'Search cocktails...',
-    onSelect
+    placeholder = 'Search cocktails...'
 }) => {
 
     const [term, setTerm] = useState('');
-    const debouncedTerm = useDebounce(term, 300);
-    const { dataMemoized: cocktails } = useCocktailQueryByName(debouncedTerm); 
+    const { setSearchValue } = useSearchBar();
+       
+    // each keypress
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTerm(e.target.value);
+        setSearchValue(e.target.value);
+    };
+
+    //const { dataMemoized: cocktails } = useCocktailQueryByName(debouncedTerm);
     //const [isOpen, setIsOpen] = useState(false);
     //const dropdownRef = useRef<HTMLDivElement>(null);
     //const blurTimeoutRef = useRef<number | null>(null);
 
     // clear timeout on unmount
-    useEffect(() => {
+    //useEffect(() => {
         //return () => {
         //    if (blurTimeoutRef.current) {
         //        clearTimeout(blurTimeoutRef.current);
         //    }
         //};
-    }, []);
+    //}, []);
 
     //const handleBlur = () => {
     //    blurTimeoutRef.current = window.setTimeout(() => {
@@ -49,12 +54,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     //    setTerm(item.name);
     //    setIsOpen(false);
     //}, [onSelect]);
-
-    // each keypress
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTerm(e.target.value);
-    };
-
+     
     return (
         <div className={styles.wrapper}>
             <input
