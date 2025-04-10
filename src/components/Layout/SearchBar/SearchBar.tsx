@@ -1,6 +1,6 @@
 ﻿import React, { useState } from 'react';
 import styles from './SearchBar.module.css';
-import { useSearchBar } from '@/contexts/SearchbarContext';
+import { useSearchBar } from '@/contexts/SearchBarContext';
 
 interface SearchBarProps {
     placeholder?: string;

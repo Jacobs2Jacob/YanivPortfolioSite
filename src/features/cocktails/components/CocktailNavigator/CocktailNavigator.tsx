@@ -3,14 +3,14 @@ import styles from './CocktailNavigator.module.css';
 import Carousel, { CarouselHandles } from '@/components/Carousel/Carousel';
 import { mapToCarouselItem } from '../../utils/mapToCarouselItem'; 
 import { useCocktailAlphabeticQuery } from '../../hooks/useCocktailAlphabeticQuery';
-import { useSearchBar } from '@/contexts/SearchbarContext';
+import { useSearchBar } from '@/contexts/SearchBarContext';
 import { useCocktailQueryByName } from '../../hooks/useCocktailQueryByName'; 
 
 const CocktailNavigator: React.FC = () => {
     const carouselRef = useRef<CarouselHandles>(null);
     const { searchValue } = useSearchBar();
     const { items: navigatorResults, loadNext, loading: navigatorLoading } = useCocktailAlphabeticQuery();
-    const { data: searchResults, isLoading: searchLoading } = useCocktailQueryByName(searchValue, 50);
+    const { data: searchResults, isLoading: searchLoading } = useCocktailQueryByName(searchValue, 150);
      
     const onReachEndHandler = useCallback(() => {
         if (!searchValue || searchValue === '') {

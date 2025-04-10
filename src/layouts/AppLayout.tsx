@@ -4,7 +4,7 @@ import SearchBar from '../components/Layout/SearchBar/SearchBar';
 import Modal from '../components/Layout/Modal/Modal'; 
 import Navbar from '../components/Layout/Navbar/Navbar'; 
 import { useModal } from '../contexts/ModalContext';
-import { SearchBarProvider } from '../contexts/SearchbarContext';
+import { SearchBarProvider } from '../contexts/SearchBarContext';
 
 const AppLayout: React.FC = () => {
     const navigate = useNavigate();
