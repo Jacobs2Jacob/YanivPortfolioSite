@@ -23,9 +23,7 @@ const Carousel = forwardRef<CarouselHandles, CarouselProps>(({
     const hasReachedEnd = useRef(false);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
-
-    useEffect(() => { console.log(loading)}, [loading])
-
+     
     const updateScrollButtons = useCallback(() => {
         const el = scrollRef.current;
 
@@ -82,30 +80,31 @@ const Carousel = forwardRef<CarouselHandles, CarouselProps>(({
 
         updateScrollButtons();
     };
-
-    if (items.length === 0 && !loading) {
-        return <p className={styles.loading}>No Results Found...</p>;
-    }
-
-    if (loading) {
-        return <p className={styles.loading}>Searching...</p>;
-    }
-
+      
     return (
-        items.length > 0 &&
-            <div className={styles.carouselWrapper}>
-                {canScrollLeft && (
-                    <button className={styles.navButton} onClick={() => scroll('left')}>&lt;</button>
-                )}
+        <div className={styles.carouselWrapper}>
+            {canScrollLeft && (
+                <button className={styles.navButton} onClick={() => scroll('left')}>&lt;</button>
+            )}
 
-                <div className={styles.carousel} ref={scrollRef} onScroll={handleScroll}>
-                    {items.map((item) => <CarouselCard key={item.id} item={item} />)}
-                </div>
-
-                {canScrollRight && (
-                    <button className={styles.navButton} onClick={() => scroll('right')}>&gt;</button>
-                )}
+            <div className={styles.carousel} ref={scrollRef} onScroll={handleScroll}>
+                {items.map((item) => (
+                    <CarouselCard key={item.id} item={item} />
+                ))}
             </div>
+
+            {canScrollRight && (
+                <button className={styles.navButton} onClick={() => scroll('right')}>&gt;</button>
+            )}
+
+            {!loading && items.length === 0 && (
+                <p className={styles.loading}>No Results Found...</p>
+            )}
+
+            {loading && items.length === 0 && (
+                <p className={styles.loading}>Searching...</p>
+            )}
+        </div>
     );
 });
 

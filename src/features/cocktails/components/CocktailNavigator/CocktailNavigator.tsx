@@ -16,7 +16,7 @@ const CocktailNavigator: React.FC = () => {
     // use debounce only here not inside the hook, since the memo here is also using the search value from the searchBar input
     const debouncedQuery = useDebounce(searchValue, 300);
 
-
+    // loading next letter cocktails on scroll end
     const onReachEndHandler = useCallback(() => {
         if (!debouncedQuery || debouncedQuery === '') {
             loadNext();
@@ -27,9 +27,9 @@ const CocktailNavigator: React.FC = () => {
         loadNext();
     }, []);
 
-    useEffect(() => {
+    useEffect(() => { 
         carouselRef.current?.resetScroll();
-    }, [debouncedQuery, searchResults]);
+    }, [debouncedQuery]);
      
     const showingItems = useMemo(() => {
         if (debouncedQuery !== '') { 
