@@ -5,15 +5,25 @@ import { getStorageCocktails } from '../services/storageCocktailService';
 
 // currently getting data from both sources (api / storage), can be seperated with hook resolver or datasources param, but for the app needs its overengineering
 export const useCocktailQueryByName = (query: string = '') => {
+    const [error, setError] = useState<string | null>(null);
     const [apiResult, setApiResult] = useState<Cocktail[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchCocktails = async () => {
             setIsLoading(true);
-            const res = await searchCocktails(query);
-            setApiResult(res);
-            setIsLoading(false);
+            setError(null);
+
+            try {
+                const res = await searchCocktails(query);
+                setApiResult(res);
+            }
+            catch (e) {
+                setError('Failed to search cocktails');
+            }
+            finally {
+                setIsLoading(false);
+            }
         };
 
         if (query) {
@@ -38,6 +48,7 @@ export const useCocktailQueryByName = (query: string = '') => {
 
     return {
         dataMemoized,
-        isLoading
+        isLoading,
+        error
     };
 };

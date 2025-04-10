@@ -10,37 +10,40 @@ export const getStorageCocktails = (): Cocktail[] => {
         return cachedCocktails;
     }
 
-    const stored = localStorage.getItem(STORAGE_KEY);
-    cachedCocktails = stored ? JSON.parse(stored) : [];
-
-    return cachedCocktails ?? [];
-}
-
-export const getStorageCocktailById = (id: string): Cocktail | null => {
     try {
-        const cocktail = getStorageCocktails().find(f => f.id === id);
-        return cocktail ?? null;
+        const stored = localStorage.getItem(STORAGE_KEY);
+        cachedCocktails = stored ? JSON.parse(stored) : [];
+        return cachedCocktails ?? [];
     }
     catch (e) {
-        console.error("Failed fetching cocktail by id from storage", e);
-        throw e;
+        // TODO: Pass to logger
+        console.error('(getStorageCocktails) Error reading from localStorage. Returning empty array.', e);
+        return [];
     }
+}
+
+export const getStorageCocktailById = (id: string): Cocktail | null => { 
+    const cocktail = getStorageCocktails().find(f => f.id === id);
+    return cocktail ?? null;
 };
 
 export const addStorageCocktail = (cocktail: Cocktail): Cocktail | null => {
+
     try {
         const cocktailToAdd = { ...cocktail, id: generateStorageCocktailId() };
         const newCocktails = [...getStorageCocktails(), cocktailToAdd];
         cachedCocktails = newCocktails;
         localStorage.setItem(STORAGE_KEY, JSON.stringify(newCocktails));
-        return cocktailToAdd ?? null;
+
+        return cocktailToAdd;
     }
-    catch (e) {
-        console.error("Failed adding cocktail to storage", e);
+    catch (e) { 
+        // TODO: Pass to logger
+        console.error(`(addStorageCocktail) Failed adding cocktail to storage. Input: ${JSON.stringify(cocktail)}`, e);
         throw e;
     }
 }
 
-export const getStorageCocktailsByFirstLetter = (letter: string) => {
-    return getStorageCocktails()?.filter(f => f.name.includes(letter));
+export const getStorageCocktailsByFirstLetter = (letter: string): Cocktail[] => { 
+    return getStorageCocktails().filter(f => f.name.includes(letter));
 }

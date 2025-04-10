@@ -9,7 +9,8 @@ export const searchCocktails = async (input: string): Promise<Cocktail[]> => {
         return Array.isArray(res.data.drinks) ? res.data.drinks.map(mapCocktailFromApi) : [];
     }
     catch (e) {
-        console.error("Failed searching cocktails by name", e);
+        // TODO: Pass to logger
+        console.error(`(searchCocktails) Failed searching cocktails by name. input[${input}]`, e);
         throw e;
     }
 };
@@ -21,7 +22,8 @@ export const getCocktailsByFirstLetter = async (letter: string): Promise<Cocktai
         return Array.isArray(res.data.drinks) ? res.data.drinks.map(mapCocktailFromApi) : [];
     }
     catch (e) {
-        console.error("Failed searching cocktails by first letter", e);
+        // TODO: Pass to logger
+        console.error(`(getCocktailsByFirstLetter) Failed searching cocktails by first letter. input[${letter}]`, e);
         throw e;
     }
 };
@@ -33,7 +35,8 @@ export const getCocktailById = async (id: string): Promise<Cocktail | null> => {
         return res.data.drinks?.[0] ? mapCocktailFromApi(res.data.drinks[0]) : null;
     }
     catch (e) {
-        console.error("Failed to fetch cocktail by ID", e);
+        // TODO: Pass to logger
+        console.error(`(getCocktailById) Failed to fetch cocktail by ID. input[${id}]`, e);
         throw e;
     }
 };

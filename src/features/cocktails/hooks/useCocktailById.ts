@@ -33,7 +33,6 @@ export const useCocktailById = ({ id, dataSource = 'api' }: UseCocktailByIdProps
         }
 
         if (!cocktail) {
-          setError('Cocktail not found');
           setData(null);
         }
         else {
