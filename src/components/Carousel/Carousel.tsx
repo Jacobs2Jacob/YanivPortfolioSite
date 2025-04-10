@@ -24,6 +24,8 @@ const Carousel = forwardRef<CarouselHandles, CarouselProps>(({
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
 
+    useEffect(() => { console.log(loading)}, [loading])
+
     const updateScrollButtons = useCallback(() => {
         const el = scrollRef.current;
 

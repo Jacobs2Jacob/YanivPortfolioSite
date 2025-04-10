@@ -5,18 +5,23 @@ import { mapToCarouselItem } from '../../utils/mapToCarouselItem';
 import { useCocktailAlphabeticQuery } from '../../hooks/useCocktailAlphabeticQuery';
 import { useSearchBar } from '@/contexts/SearchBarContext';
 import { useCocktailQueryByName } from '../../hooks/useCocktailQueryByName'; 
+import { useDebounce } from '@/hooks/useDebounce';
 
 const CocktailNavigator: React.FC = () => {
     const carouselRef = useRef<CarouselHandles>(null);
     const { searchValue } = useSearchBar();
     const { items: navigatorResults, loadNext, loading: navigatorLoading } = useCocktailAlphabeticQuery();
-    const { data: searchResults, isLoading: searchLoading } = useCocktailQueryByName(searchValue, 150);
-     
+    const { data: searchResults, isLoading: searchLoading } = useCocktailQueryByName(searchValue);
+
+    // use debounce only here not inside the hook, since the memo here is also using the search value from the searchBar input
+    const debouncedQuery = useDebounce(searchValue, 300);
+
+
     const onReachEndHandler = useCallback(() => {
-        if (!searchValue || searchValue === '') {
+        if (!debouncedQuery || debouncedQuery === '') {
             loadNext();
         }
-    }, [searchValue, loadNext]);
+    }, [debouncedQuery, loadNext]);
      
     useEffect(() => { 
         loadNext();
@@ -24,16 +29,16 @@ const CocktailNavigator: React.FC = () => {
 
     useEffect(() => {
         carouselRef.current?.resetScroll();
-    }, [searchValue, searchResults]);
+    }, [debouncedQuery, searchResults]);
      
     const showingItems = useMemo(() => {
-        if (searchValue !== '') {
+        if (debouncedQuery !== '') { 
             return searchResults.map(mapToCarouselItem);
         }
         else {
             return navigatorResults.map(mapToCarouselItem);
         }
-    }, [searchValue, navigatorResults, searchResults]);
+    }, [debouncedQuery, navigatorResults, searchResults]);
 
     return (
         <div className={styles.navigatorContainer}>
