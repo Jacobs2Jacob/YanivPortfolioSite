@@ -40,7 +40,7 @@ export const addStorageCocktail = (cocktail: Cocktail): Cocktail | null => {
     catch (e) { 
         // TODO: Pass to logger
         console.error(`(addStorageCocktail) Failed adding cocktail to storage. Input: ${JSON.stringify(cocktail)}`, e);
-        throw e;
+        return null;
     }
 }
 

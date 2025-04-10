@@ -18,34 +18,31 @@ export const useCocktailById = ({ id, dataSource = 'api' }: UseCocktailByIdProps
         return;
     }
 
-    const fetchCocktail = async () => {
+  const fetchCocktail = async () => {
       setIsLoading(true);
       setError(null);
 
-      try {
-        let cocktail: Cocktail | null = null;
+      let cocktail: Cocktail | null = null;
 
-        if (dataSource === 'api') {
-          cocktail = await getCocktailById(id);
-        }
-        else {
-          cocktail = await getStorageCocktailById(id);
-        }
-
-        if (!cocktail) {
-          setData(null);
-        }
-        else {
-          setData(cocktail);
-        }
+      if (dataSource === 'api') {
+        cocktail = await getCocktailById(id);
       }
-      catch (err) {
+      else {
+        cocktail = await getStorageCocktailById(id);
+      }
+
+      if (!cocktail) {
         setError('Failed to fetch cocktail details');
+        setData(null);
       }
-      finally {
-        setIsLoading(false);
+      else {
+        setData(cocktail);
       }
-    };
+
+      setIsLoading(false);
+  }
+
+      
 
     fetchCocktail();
   }, [id, dataSource]);

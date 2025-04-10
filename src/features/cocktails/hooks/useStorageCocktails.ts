@@ -4,7 +4,6 @@ import { Cocktail } from '../types';
 
 export const useStorageCocktails = () => {
     const [cocktails, setCocktails] = useState<Cocktail[]>([]);
-    const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
     // Load cocktails from storage on mount
@@ -17,31 +16,21 @@ export const useStorageCocktails = () => {
     const addCocktail = useCallback((cocktail: Cocktail): boolean => {
 
         setIsLoading(true);
-        setError(null);
+        const storageCocktail = addStorageCocktail(cocktail);
 
-        try {
-            const storageCocktail = addStorageCocktail(cocktail);
-
-            if (storageCocktail) {
-                const updated = getStorageCocktails();
-                setCocktails(updated);
-                return true;
-            }
-        }
-        catch (e) {
-            setError('Failed to add cocktail');
-        }
-        finally {
-            setIsLoading(false);
+        if (storageCocktail) {
+            const updated = getStorageCocktails();
+            setCocktails(updated);
+            return true;
         }
 
+        setIsLoading(false);
         return false;
     }, []);
 
     return {
         cocktails,
         addCocktail,
-        error,
         isLoading
     };
 };

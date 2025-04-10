@@ -11,7 +11,7 @@ export const searchCocktails = async (input: string): Promise<Cocktail[]> => {
     catch (e) {
         // TODO: Pass to logger
         console.error(`(searchCocktails) Failed searching cocktails by name. input[${input}]`, e);
-        throw e;
+        return [];
     }
 };
 
@@ -24,7 +24,7 @@ export const getCocktailsByFirstLetter = async (letter: string): Promise<Cocktai
     catch (e) {
         // TODO: Pass to logger
         console.error(`(getCocktailsByFirstLetter) Failed searching cocktails by first letter. input[${letter}]`, e);
-        throw e;
+        return [];
     }
 };
 
@@ -37,6 +37,6 @@ export const getCocktailById = async (id: string): Promise<Cocktail | null> => {
     catch (e) {
         // TODO: Pass to logger
         console.error(`(getCocktailById) Failed to fetch cocktail by ID. input[${id}]`, e);
-        throw e;
+        return null;
     }
 };
