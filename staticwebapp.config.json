@@ -1,0 +1,8 @@
+{
+  "routes": [
+    {
+      "route": "/api/cocktails/*",
+      "rewrite": "https://www.thecocktaildb.com/api/json/v1/1"
+    }
+  ]
+}
