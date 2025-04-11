@@ -35,7 +35,7 @@ const CocktailNavigator: React.FC = () => {
         if (debouncedQuery !== '') { 
             return searchResults.map(mapToCarouselItem);
         }
-        else {
+        else { 
             return navigatorResults.map(mapToCarouselItem);
         }
     }, [debouncedQuery, navigatorResults, searchResults]);
