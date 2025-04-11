@@ -1,100 +1,59 @@
-import React, { useRef, useCallback, useState, useEffect, useImperativeHandle, forwardRef } from 'react';
+﻿import React, {
+    useState,
+    useImperativeHandle,
+    forwardRef,
+    useRef,
+} from 'react';
 import styles from './Carousel.module.css';
 import { CarouselItem } from './types';
 import CarouselCard from './CarouselCard';
+import ScrollContainer, { ScrollContainerHandles } from './ScrollContainer';
 
 interface CarouselProps {
     items: CarouselItem[];
     onReachEnd: () => void;
     loading?: boolean;
 }
+
 export interface CarouselHandles {
     resetScroll: () => void;
 }
 
-// forward component ref to parent
-const Carousel = forwardRef<CarouselHandles, CarouselProps>(({
-    items,
-    onReachEnd,
-    loading
-}, ref) => {
-
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const hasReachedEnd = useRef(false);
+const Carousel = forwardRef<CarouselHandles, CarouselProps>(({ items, onReachEnd, loading }, ref) => {
+    const scrollRef = useRef<ScrollContainerHandles>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
-     
-    const updateScrollButtons = useCallback(() => {
-        const el = scrollRef.current;
 
-        if (!el) {
-            return;
-        }
+    useImperativeHandle(ref, () => ({
+        resetScroll: () => {
+            scrollRef.current?.scrollToStart();
+        },
+    }));
 
-        setCanScrollLeft(el.scrollLeft > 0);
-        setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
-    }, []);
-
-    const resetScroll = useCallback(() => {
-        hasReachedEnd.current = false;
-        scrollRef.current?.scrollTo({ left: 0, behavior: 'auto' });
-        updateScrollButtons();
-    }, [updateScrollButtons]);
-
-    useImperativeHandle(ref, () => ({ resetScroll }));
-
-    useEffect(() => {
-        updateScrollButtons();
-    }, [items.length]);
-
-    // smooth scrolling
-    const scroll = (dir: 'left' | 'right') => {
-        const el = scrollRef.current;
-
-        if (!el) {
-            return;
-        }
-
-        const offset = dir === 'left' ? -el.offsetWidth : el.offsetWidth;
-        el.scrollTo({ left: el.scrollLeft + offset, behavior: 'smooth' });
-    };
-
-    const handleScroll = () => {
-
-        const el = scrollRef.current;
-
-        if (!el) {
-            return;
-        }
-
-        const nearEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 10;
-
-        // check if end so trigger fetch more at parent
-        if (nearEnd && !hasReachedEnd.current) {
-            hasReachedEnd.current = true;
-            onReachEnd();
-        }
-        else if (!nearEnd) {
-            hasReachedEnd.current = false;
-        }
-
-        updateScrollButtons();
-    };
-      
     return (
         <div className={styles.carouselWrapper}>
-            {canScrollLeft && (
-                <button className={styles.navButton} onClick={() => scroll('left')}>&lt;</button>
+            {(canScrollLeft || loading) && (
+                <button className={styles.navButton} onClick={() => scrollRef.current?.scrollByOffset('left')}>
+                    &lt;
+                </button>
             )}
 
-            <div className={styles.carousel} ref={scrollRef} onScroll={handleScroll}>
-                {items.map((item) => (
+            <ScrollContainer
+                ref={scrollRef}
+                onScrollEnd={onReachEnd}
+                onScrollStateChange={(left, right) => {
+                    setCanScrollLeft(left);
+                    setCanScrollRight(right);
+                }}>
+                {items.map(item => (
                     <CarouselCard key={item.id} item={item} />
                 ))}
-            </div>
+            </ScrollContainer>
 
-            {canScrollRight && (
-                <button className={styles.navButton} onClick={() => scroll('right')}>&gt;</button>
+            {(canScrollRight || loading) && (
+                <button className={styles.navButton} onClick={() => scrollRef.current?.scrollByOffset('right')}>
+                    &gt;
+                </button>
             )}
 
             {!loading && items.length === 0 && (
