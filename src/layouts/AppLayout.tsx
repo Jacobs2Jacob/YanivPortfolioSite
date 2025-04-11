@@ -6,11 +6,12 @@ import { useModal } from '../contexts/ModalContext';
 import { SearchBarProvider } from '../contexts/SearchBarContext';
 import Loader from '../components/Layout/Loader/Loader';
 
+const LazyModal = lazy(() => import('@/components/Layout/Modal/Modal'));
+
 const AppLayout: React.FC = () => {
     const navigate = useNavigate();
     const { closeModal, isOpen, content } = useModal();
 
-    const LazyModal = lazy(() => import('@/components/Layout/Modal/Modal'));
     
     return (
         <SearchBarProvider>
