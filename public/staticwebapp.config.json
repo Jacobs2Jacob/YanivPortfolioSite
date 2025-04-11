@@ -2,7 +2,7 @@
   "routes": [
     {
       "route": "/api/cocktails/*",
-      "rewrite": "https://www.thecocktaildb.com/api/json/v1/1"
+      "rewrite": "https://www.thecocktaildb.com/api/json/v1/1/:*"
     }
   ]
 }
