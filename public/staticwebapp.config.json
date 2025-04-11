@@ -2,6 +2,9 @@
   "routes": [
     {
       "route": "/api/cocktails/*",
+      "methods": [
+        "get"
+      ],
       "rewrite": "https://www.thecocktaildb.com/api/json/v1/1/:*"
     }
   ]
