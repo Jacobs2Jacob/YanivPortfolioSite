@@ -17,6 +17,7 @@ module.exports = async function (context, req) {
             body: data
         };
     } catch (err) {
+        console.error("Proxy error:", err);
         context.res = {
             status: 500,
             body: { error: "Proxy fetch failed", message: err.message }
