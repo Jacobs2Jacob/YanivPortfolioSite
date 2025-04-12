@@ -4,6 +4,8 @@ module.exports = async function (context, req) {
     const path = context.bindingData.proxy || "";
     const url = `https://www.thecocktaildb.com/api/json/v2/961249867/${path}`;
 
+    console.log(url);
+    
     try {
         const response = await fetch(url);
         const data = await response.json();
