@@ -75,8 +75,7 @@
     width: 100%;
 }
 
-.scrollContent {
-    justify-content: center;
+.scrollContent { 
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: repeat(2, auto); /* 2 rows */
@@ -96,6 +95,7 @@
 /* === MOBILE: vertical scroll and 2 cards per row === */
 @media (max-width: 1200px) {
     .scrollContent {
+        justify-content: center;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
