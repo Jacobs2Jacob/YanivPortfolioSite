@@ -20,8 +20,8 @@
 .card {
     cursor: pointer;
     flex: 0 0 auto;
-    width: 150px;
-    height: 250px;
+    width: 245px;
+    height: 400px;
     scroll-snap-align: start;
     background: #fff;
     border-radius: 8px;
@@ -42,7 +42,7 @@
 }
 
 .image {
-    height: 140px;
+    height: 300px;
     width: 100%;
     border-radius: 4px;
 }
@@ -82,4 +82,26 @@
     overflow: hidden;
     scroll-behavior: smooth;
     padding: 0.5rem 0;
+}
+
+@media (max-width: 600px) {
+    .card {
+        cursor: pointer;
+        flex: 0 0 auto;
+        width: 150px;
+        height: 250px;
+        scroll-snap-align: start;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        padding: 0.5rem;
+        transition: transform 0.2s;
+    }
+
+    .image {
+        height: 140px;
+        width: 100%;
+        border-radius: 4px;
+    }
 }
