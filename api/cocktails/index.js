@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 
 module.exports = async function (context, req) {
     const path = context.bindingData.proxy || "";
-    const url = 'https://www.thecocktaildb.com/api/json/v2/961249867/${path}';
+    const url = `https://www.thecocktaildb.com/api/json/v2/961249867/${path}`;
 
     try {
         const response = await fetch(url);
