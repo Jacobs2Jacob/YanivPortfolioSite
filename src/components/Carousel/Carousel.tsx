@@ -9,22 +9,29 @@ import { CarouselItem } from './types';
 import CarouselCard from './CarouselCard';
 import ScrollContainer, { ScrollContainerHandles } from './ScrollContainer';
 import Loader from '../Layout/Loader/Loader';
+import { Direction } from '../../types/types';
 
 interface CarouselProps {
     items: CarouselItem[];
     onReachEnd: () => void;
     loading?: boolean;
+    direction?: Direction;
 }
 
 export interface CarouselHandles {
     resetScroll: () => void;
 }
 
-const Carousel = forwardRef<CarouselHandles, CarouselProps>(({ items, onReachEnd, loading }, ref) => {
+const Carousel = forwardRef<CarouselHandles, CarouselProps>(({
+    items,
+    onReachEnd,
+    loading,
+    direction = 'horizontal'
+}, ref) => {
     const scrollRef = useRef<ScrollContainerHandles>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
-
+    
     useImperativeHandle(ref, () => ({
         resetScroll: () => {
             scrollRef.current?.scrollToStart();
@@ -34,13 +41,14 @@ const Carousel = forwardRef<CarouselHandles, CarouselProps>(({ items, onReachEnd
     return (
         <div className={styles.carouselWrapper}>
             {items.length > 0 && <>
-                {(canScrollLeft || loading) && (
+                {direction === 'horizontal' && (canScrollLeft || loading) && (
                     <button className={styles.navButton} onClick={() => scrollRef.current?.scrollByOffset('left')}>
                         &lt;
                     </button>
                 )}
 
                 <ScrollContainer
+                    direction={direction}       
                     ref={scrollRef}
                     onScrollEnd={onReachEnd}
                     onScrollStateChange={(left, right) => {
@@ -52,7 +60,7 @@ const Carousel = forwardRef<CarouselHandles, CarouselProps>(({ items, onReachEnd
                     ))}
                 </ScrollContainer>
 
-                {(canScrollRight || loading) && (
+                {direction === 'horizontal' && (canScrollRight || loading) && (
                     <button className={styles.navButton} onClick={() => scrollRef.current?.scrollByOffset('right')}>
                         &gt;
                     </button>

@@ -15,3 +15,9 @@
     padding: 1rem;
     text-align: center;
 }
+
+@media (max-width: 600px) {
+    .navigatorContainer {
+        width: 100%;
+    }
+}

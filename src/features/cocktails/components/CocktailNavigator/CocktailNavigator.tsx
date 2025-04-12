@@ -6,12 +6,14 @@ import { useCocktailAlphabeticQuery } from '../../hooks/useCocktailAlphabeticQue
 import { useSearchBar } from '@/contexts/SearchBarContext';
 import { useCocktailQueryByName } from '../../hooks/useCocktailQueryByName'; 
 import { useDebounce } from '@/hooks/useDebounce';
+import { useDeviceDetection } from '@/hooks/useDeviceDetection';
 
 const CocktailNavigator: React.FC = () => {
     const carouselRef = useRef<CarouselHandles>(null);
     const { searchValue } = useSearchBar();
     const { items: navigatorResults, loadNext, loading: navigatorLoading } = useCocktailAlphabeticQuery();
     const { data: searchResults, isLoading: searchLoading } = useCocktailQueryByName(searchValue);
+    const device = useDeviceDetection(1200);
 
     // use debounce only here not inside the hook, since the memo here is also using the search value from the searchBar input
     const debouncedQuery = useDebounce(searchValue, 300);
@@ -43,6 +45,7 @@ const CocktailNavigator: React.FC = () => {
     return (
         <div className={styles.navigatorContainer}>
             <Carousel
+                direction={device === 'desktop' ? 'horizontal' : 'vertical'}
                 ref={carouselRef}
                 items={showingItems}
                 onReachEnd={onReachEndHandler}
