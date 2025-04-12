@@ -13,7 +13,7 @@ export const mapCocktailFromApi = (api: any): Cocktail => {
     return {
         id: api.idDrink,
         name: api.strDrink,
-        image: api.strDrinkThumb,
+        image: `${api.strDrinkThumb}/small`,
         instructions: api.strInstructions,
         ingredients
     };
