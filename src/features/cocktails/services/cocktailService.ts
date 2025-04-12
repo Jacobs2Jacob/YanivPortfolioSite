@@ -2,15 +2,20 @@ import { Cocktail } from "../types";
 import { mapCocktailFromApi } from "../utils/mapCocktailFromApi";
 import cocktailsAPI from "./cocktailApi"; 
 
-export const searchCocktails = async (input: string): Promise<Cocktail[]> => {
+export const searchCocktails = async (input: string, signal: AbortSignal): Promise<Cocktail[]> => {
 
     try {
-        const res = await cocktailsAPI.get(`/search.php?s=${input}`);
+        const res = await cocktailsAPI.get(`/search.php?s=${input}`, {
+            signal
+        });
         return Array.isArray(res.data.drinks) ? res.data.drinks.map(mapCocktailFromApi) : [];
     }
-    catch (e) {
+    catch (e: any) {
         // TODO: Pass to logger
-        console.error(`(searchCocktails) Failed searching cocktails by name. input[${input}]`, e);
+        // not logging aborts
+        if (e.code !== 'ERR_CANCELED') {
+            console.error(`(searchCocktails) Failed searching cocktails by name. input[${input}]`, e);
+        }
         return [];
     }
 };

@@ -8,14 +8,14 @@ export const useCocktailQueryByName = (query: string = '') => {
     const [data, setData] = useState<Cocktail[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const fetchCocktails = useCallback(async () => {
+    const fetchCocktails = useCallback(async (abortController: AbortController) => {
         if (!query) {
             return [];
         }
 
         setIsLoading(true);
         
-        const res = await searchCocktails(query);
+        const res = await searchCocktails(query, abortController.signal);
 
         const storageCocktails = getStorageCocktails()
             .filter(f => f.name.toLowerCase()
@@ -28,8 +28,14 @@ export const useCocktailQueryByName = (query: string = '') => {
     }, [query]);
 
     useEffect(() => { 
-        fetchCocktails();
-    }, [fetchCocktails]); 
+        const controller = new AbortController();
+        fetchCocktails(controller);
+
+        return () => {
+            // Cancel any pending request on re-run/unmount
+            controller.abort(); 
+        };
+    }, [fetchCocktails]);
 
     return {
         data,

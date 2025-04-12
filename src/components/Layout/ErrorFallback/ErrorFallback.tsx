@@ -10,7 +10,7 @@ const ErrorFallback = () => {
 					<div className={styles.inner}>
 						<div className={styles.innerCircle}>
 							<i className="fa fa-cogs"></i>
-							<div style={{ paddingTop: '75px 15px' }}>
+							<div style={{ padding: '75px 15px' }}>
 								<span className={styles.innerStatus}>Something went wrong...</span>
 								<span className={styles.innerDetail}>Unfortunately we're having trouble loading the page you are looking for. Please come back in a while.</span>
 							</div>
