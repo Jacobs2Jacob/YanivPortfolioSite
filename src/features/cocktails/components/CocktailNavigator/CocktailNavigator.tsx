@@ -41,7 +41,7 @@ const CocktailNavigator: React.FC = () => {
     }, [debouncedQuery, navigatorResults, searchResults]);
 
     return (
-        showingItems.length > 0 && <div className={styles.navigatorContainer}>
+        <div className={styles.navigatorContainer}>
             <Carousel
                 ref={carouselRef}
                 items={showingItems}
