@@ -6,8 +6,7 @@
 
 .container {
     display: flex;
-    gap: 1rem;
-    justify-content: flex-start;
+    gap: 1rem; 
 }
 
 .navButton {
@@ -21,7 +20,39 @@
     transition: background 0.2s ease;
 }
 
-    .navButton:hover {
-        background: white;
-        color: black;
+.navButton:hover {
+    background: white;
+    color: black;
+}
+
+.title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin: auto;
+}
+
+@media (max-width: 600px) {
+    .title {
+        position: relative;
+        left: unset;
+        transform: unset;
+        font-size: 1.5rem;
+        font-weight: 600;
     }
+}
+
+@media (max-width: 400px) {
+    .title {
+        font-size: 0.7rem;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 480px) {
+    .title {
+        font-size: 1rem;
+    }
+}
