@@ -3,8 +3,6 @@ import CocktailNavigator from '@/features/cocktails/components/CocktailNavigator
 
 const HomePage: React.FC = () => {
 
-    const navigate = useNavigate();
-
     return (
         <>
             <SearchBar />
