@@ -107,9 +107,9 @@ const NewCocktailForm: React.FC<Props> = ({ onSubmit }) => {
                             value={ingredients?.[index]?.measure}
                         />
 
-                        <button style={{ marginTop: '25px' }} type="button" className='btn-red' onClick={() => remove(index)}>
+                        {ingredients?.length > 1 && <button style={{ marginTop: '25px' }} type="button" className='btn-red' onClick={() => remove(index)}>
                             Remove
-                        </button>
+                        </button>}
                     </div>
                 ))}
                 <button type="button" className='btn-blue' onClick={() => append({ ingredient: '', measure: '' })}>
