@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import CocktailNavigator from '@/features/cocktails/components/CocktailNavigator/CocktailNavigator';
 
 const HomePage: React.FC = () => {
@@ -8,7 +7,7 @@ const HomePage: React.FC = () => {
 
     return (
         <>
-            <SearchBar onSelect={(id) => navigate(`/cocktail/${id}`)} />
+            <SearchBar />
             <CocktailNavigator />
         </>
     );
