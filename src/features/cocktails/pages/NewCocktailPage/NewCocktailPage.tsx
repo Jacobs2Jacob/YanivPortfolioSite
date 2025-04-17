@@ -4,10 +4,12 @@ import { useStorageCocktails } from '../../hooks/useStorageCocktails';
 import NewCocktailForm from '../../components/NewCocktailForm/NewCocktailForm';
 import { Cocktail } from '@/features/cocktails/types';  
 import { useModal } from '@/contexts/ModalContext';
+import { useNavigate } from 'react-router';
 
 const NewCocktailPage: React.FC = () => {
     const { addCocktail } = useStorageCocktails(); 
     const { openModal, closeModal } = useModal();
+    const navigate = useNavigate();
 
     const handleOnSubmit = (data: Cocktail) => {
         const addedCocktail = addCocktail(data);
@@ -20,7 +22,11 @@ const NewCocktailPage: React.FC = () => {
                 alignItems: 'center'
             }}>
                 <h2>Saved!</h2>
-                <button type='button' onClick={closeModal}
+                <button type='button' 
+                    onClick={()=> {
+                       closeModal();
+                       navigate('/');
+                    }}
                     className='btn-blue'
                     style={{ marginTop: '15px' }}>Close</button>
             </div>
