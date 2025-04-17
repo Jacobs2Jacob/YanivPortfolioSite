@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import SearchBar from '../components/Layout/SearchBar/SearchBar'; 
 import Navbar from '../components/Layout/Navbar/Navbar'; 
 import { useModal } from '../contexts/ModalContext';
@@ -9,14 +9,13 @@ import Loader from '../components/Layout/Loader/Loader';
 const LazyModal = lazy(() => import('@/components/Layout/Modal/Modal'));
 
 const AppLayout: React.FC = () => {
-    const navigate = useNavigate();
+    
     const { closeModal, isOpen, content } = useModal();
 
     
     return (
         <SearchBarProvider>
             <Navbar />
-            <SearchBar onSelect={(id) => navigate(`/cocktail/${id}`)} />
 
             <main>
                 <Outlet />
