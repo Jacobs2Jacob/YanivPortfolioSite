@@ -4,7 +4,7 @@ import { useStorageCocktails } from '../../hooks/useStorageCocktails';
 import NewCocktailForm from '../../components/NewCocktailForm/NewCocktailForm';
 import { Cocktail } from '@/features/cocktails/types';  
 import { useModal } from '@/contexts/ModalContext';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 const NewCocktailPage: React.FC = () => {
     const { addCocktail } = useStorageCocktails(); 
