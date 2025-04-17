@@ -1,9 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
-import SearchBar from '../components/Layout/SearchBar/SearchBar'; 
 import Navbar from '../components/Layout/Navbar/Navbar'; 
 import { useModal } from '../contexts/ModalContext';
-import { SearchBarProvider } from '../contexts/SearchBarContext';
 import Loader from '../components/Layout/Loader/Loader';
 
 const LazyModal = lazy(() => import('@/components/Layout/Modal/Modal'));
@@ -14,7 +12,7 @@ const AppLayout: React.FC = () => {
 
     
     return (
-        <SearchBarProvider>
+        <>
             <Navbar />
 
             <main>
@@ -26,7 +24,7 @@ const AppLayout: React.FC = () => {
                     {content}
                 </LazyModal>
             </Suspense>
-        </SearchBarProvider>
+        </>
     );
 };
 
