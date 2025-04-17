@@ -1,6 +1,6 @@
 import React from 'react';
 import CocktailNavigator from '@/features/cocktails/components/CocktailNavigator/CocktailNavigator';
-import SearchBar from '@/components/layout/SearchBar/SearchBar';
+import SearchBar from '@/components/Layout/SearchBar/SearchBar';
 
 const HomePage: React.FC = () => {
 
