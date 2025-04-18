@@ -1,4 +1,4 @@
-﻿.navbar {
+.navbar {
     background-color: #000;
     padding: 1rem;
     color: white;
@@ -33,26 +33,4 @@
     font-weight: 600;
     text-align: center;
     margin: auto;
-}
-
-@media (max-width: 600px) {
-    .title {
-        position: relative;
-        left: unset;
-        transform: unset;
-        font-size: 1.5rem;
-        font-weight: 600;
-    }
-}
-
-@media (max-width: 400px) {
-    .title {
-        font-size: 0.7rem;
-    }
-}
-
-@media (min-width: 400px) and (max-width: 480px) {
-    .title {
-        font-size: 1rem;
-    }
 }
