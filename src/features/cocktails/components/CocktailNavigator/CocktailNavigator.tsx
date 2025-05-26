@@ -30,7 +30,7 @@ const CocktailNavigator: React.FC = () => {
     useEffect(() => { 
 
         if (debouncedQuery && debouncedQuery !== '') {
-            setNavigatorResultsOffset(0);
+            setNavigatorResultsOffset(navigatorResultsSize);
         }
 
         carouselRef.current?.resetScroll();
