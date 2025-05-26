@@ -6,10 +6,10 @@
 } from 'react';
 import styles from './Carousel.module.css';
 import { CarouselItem } from './types';
-import CarouselCard from './CarouselCard';
-import ScrollContainer, { ScrollContainerHandles } from './VirtualizedScrollContainer';
+import CarouselCard from './CarouselCard'; 
 import Loader from '../Layout/Loader/Loader';
-import { Direction } from '../../types/types';
+import { Direction } from '../../types/types'; 
+import VirtualizedScrollContainer, { VirtualizedScrollContainerHandles } from '../VirtualizedScrollContainer/VirtualizedScrollContainer';
 
 interface CarouselProps {
     items: CarouselItem[];
@@ -28,7 +28,7 @@ const Carousel = forwardRef<CarouselHandles, CarouselProps>(({
     loading,
     direction = 'horizontal'
 }, ref) => {
-    const scrollRef = useRef<ScrollContainerHandles>(null);
+    const scrollRef = useRef<VirtualizedScrollContainerHandles>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
     
@@ -47,7 +47,7 @@ const Carousel = forwardRef<CarouselHandles, CarouselProps>(({
                     </button>
                 )}
 
-                <ScrollContainer
+                <VirtualizedScrollContainer
                     direction={direction}       
                     ref={scrollRef}
                     items={items}
@@ -59,7 +59,7 @@ const Carousel = forwardRef<CarouselHandles, CarouselProps>(({
                         setCanScrollLeft(left);
                         setCanScrollRight(right);
                     }}> 
-                </ScrollContainer>
+                </VirtualizedScrollContainer>
 
                 {direction === 'horizontal' && (canScrollRight || loading) && (
                     <button className={styles.navButton} onClick={() => scrollRef.current?.scrollByOffset('right')}>
