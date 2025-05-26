@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './CocktailNavigator.module.css'; 
 import Carousel, { CarouselHandles } from '@/components/Carousel/Carousel';
 import { mapToCarouselItem } from '../../utils/mapToCarouselItem'; 
@@ -14,6 +14,8 @@ const CocktailNavigator: React.FC = () => {
     const { items: navigatorResults, loadNext, loading: navigatorLoading } = useCocktailAlphabeticQuery();
     const { data: searchResults, isLoading: searchLoading } = useCocktailQueryByName(searchValue);
     const device = useDeviceDetection(1200);
+    const [navigatorResultsOffset, setNavigatorResultsOffset] = useState(0);
+    const navigatorResultsSize = 20;
 
     // use debounce only here not inside the hook, since the memo here is also using the search value from the searchBar input
     const debouncedQuery = useDebounce(searchValue, 300);
@@ -21,24 +23,31 @@ const CocktailNavigator: React.FC = () => {
     // loading next letter cocktails on scroll end
     const onReachEndHandler = useCallback(() => {
         if (!debouncedQuery || debouncedQuery === '') {
+            setNavigatorResultsOffset(prevOffset => prevOffset + navigatorResultsSize);
+        }
+    }, [debouncedQuery]);
+
+    // eager loading all cocktails on initial render
+    useEffect(() => { 
+        for (var i = 0; i < 25; i++) {
             loadNext();
         }
-    }, [debouncedQuery, loadNext]);
-     
-    useEffect(() => { 
-        loadNext();
     }, []);
 
     useEffect(() => { 
+        setNavigatorResultsOffset(0);
         carouselRef.current?.resetScroll();
     }, [debouncedQuery]);
      
     const showingItems = useMemo(() => {
-        if (debouncedQuery !== '') { 
-            return searchResults.map(mapToCarouselItem);
+        if (debouncedQuery !== '') {
+            return searchResults
+                .map(mapToCarouselItem);
         }
         else { 
-            return navigatorResults.map(mapToCarouselItem);
+            return navigatorResults
+                .slice(navigatorResultsOffset, navigatorResultsSize)
+                .map(mapToCarouselItem);
         }
     }, [debouncedQuery, navigatorResults, searchResults]);
 
