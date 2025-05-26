@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { queryClient } from '@/services/queryClient';
 import { getCocktailsByFirstLetter } from '../services/cocktailService';
 import { Cocktail } from '../types'; 
@@ -7,14 +7,17 @@ import { getStorageCocktailsByFirstLetter } from '../services/storageCocktailSer
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
 // currently getting data from both sources (api / storage), can be seperated with hook resolver or datasources param, but for the app needs its overengineering
-export const useCocktailAlphabeticQuery = () => {
+export const useCocktailAlphabeticQuery = (loadAll: boolean) => {
     const [items, setItems] = useState<Cocktail[]>([]);
     const [letterIndex, setLetterIndex] = useState(0);
     const [loading, setLoading] = useState(false);
-
+    const [hasMore, setHasMore] = useState(true);
+     
     const loadNext = useCallback(async () => {
+
         // loading or end of the list
         if (loading || letterIndex >= alphabet.length) {
+            setHasMore(false);
             return;
         }
 
@@ -40,8 +43,16 @@ export const useCocktailAlphabeticQuery = () => {
         setLoading(false);
     }, [loading, letterIndex]);
 
+    useEffect(() => { 
+        if (loadAll) {
+            loadNext();
+        }
+    }, [letterIndex]);
+
+
     return {
         items,
+        hasMore,
         loadNext,
         loading,
     };

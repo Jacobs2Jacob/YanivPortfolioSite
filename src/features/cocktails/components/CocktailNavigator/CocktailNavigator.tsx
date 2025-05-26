@@ -11,12 +11,12 @@ import { useDeviceDetection } from '@/hooks/useDeviceDetection';
 const CocktailNavigator: React.FC = () => {
     const carouselRef = useRef<CarouselHandles>(null);
     const { searchValue } = useSearchBar();
-    const { items: navigatorResults, loadNext, loading: navigatorLoading } = useCocktailAlphabeticQuery();
+    const { items: navigatorResults, loading: navigatorLoading, hasMore } = useCocktailAlphabeticQuery(true);
     const { data: searchResults, isLoading: searchLoading } = useCocktailQueryByName(searchValue);
     const device = useDeviceDetection(1200);
-    const [navigatorResultsOffset, setNavigatorResultsOffset] = useState(0);
     const navigatorResultsSize = 20;
-
+    const [navigatorResultsOffset, setNavigatorResultsOffset] = useState(navigatorResultsSize);
+    
     // use debounce only here not inside the hook, since the memo here is also using the search value from the searchBar input
     const debouncedQuery = useDebounce(searchValue, 300);
 
@@ -26,16 +26,13 @@ const CocktailNavigator: React.FC = () => {
             setNavigatorResultsOffset(prevOffset => prevOffset + navigatorResultsSize);
         }
     }, [debouncedQuery]);
-
-    // eager loading all cocktails on initial render
+      
     useEffect(() => { 
-        for (var i = 0; i < 25; i++) {
-            loadNext();
+
+        if (debouncedQuery && debouncedQuery !== '') {
+            setNavigatorResultsOffset(0);
         }
-    }, []);
 
-    useEffect(() => { 
-        setNavigatorResultsOffset(0);
         carouselRef.current?.resetScroll();
     }, [debouncedQuery]);
      
@@ -46,17 +43,22 @@ const CocktailNavigator: React.FC = () => {
         }
         else { 
             return navigatorResults
-                .slice(navigatorResultsOffset, navigatorResultsSize)
+                .slice(0, navigatorResultsOffset)
                 .map(mapToCarouselItem);
         }
-    }, [debouncedQuery, navigatorResults, searchResults]);
+    }, [
+        debouncedQuery,
+        navigatorResults,
+        searchResults,
+        navigatorResultsOffset
+    ]);
 
     return (
         <div className={styles.navigatorContainer}>
             <Carousel
                 direction={device === 'desktop' ? 'horizontal' : 'vertical'}
                 ref={carouselRef}
-                items={showingItems}
+                items={!hasMore ? showingItems : []}
                 onReachEnd={onReachEndHandler}
                 loading={searchLoading || navigatorLoading}
             />
