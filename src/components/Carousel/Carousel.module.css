@@ -80,6 +80,7 @@
     grid-auto-flow: column;
     grid-template-rows: repeat(2, auto); /* 2 rows */
     gap: 1rem;
+    height: 375px;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-behavior: smooth;

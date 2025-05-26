@@ -13,7 +13,7 @@ export const useCocktailAlphabeticQuery = (loadAll: boolean) => {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
      
-    const loadNext = useCallback(async () => {
+    const loadNext = useCallback(async (specificLetterIndex: number) => {
 
         // loading or end of the list
         if (loading || letterIndex >= alphabet.length) {
@@ -22,7 +22,7 @@ export const useCocktailAlphabeticQuery = (loadAll: boolean) => {
         }
 
         setLoading(true);
-        const letter = alphabet[letterIndex];
+        const letter = alphabet[specificLetterIndex ?? letterIndex];
 
         const apiCocktails = await queryClient.fetchQuery({
             queryKey: ['cocktailsByFirstLetter', letter],
@@ -43,12 +43,24 @@ export const useCocktailAlphabeticQuery = (loadAll: boolean) => {
         setLoading(false);
     }, [loading, letterIndex]);
 
-    useEffect(() => { 
-        if (loadAll) {
-            loadNext();
+    useEffect(() => {
+        if (!loadAll) {
+            return;
         }
-    }, [letterIndex]);
 
+        const loadAllData = async () => {
+            let index = letterIndex;
+
+            while (index < alphabet.length) {
+                await loadNext(index);
+                index++;
+            }
+
+            setHasMore(false);
+        };
+
+        loadAllData();
+    }, [loadAll]);
 
     return {
         items,

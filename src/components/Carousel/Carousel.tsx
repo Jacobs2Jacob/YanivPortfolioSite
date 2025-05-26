@@ -7,7 +7,7 @@
 import styles from './Carousel.module.css';
 import { CarouselItem } from './types';
 import CarouselCard from './CarouselCard';
-import ScrollContainer, { ScrollContainerHandles } from './ScrollContainer';
+import ScrollContainer, { ScrollContainerHandles } from './VirtualizedScrollContainer';
 import Loader from '../Layout/Loader/Loader';
 import { Direction } from '../../types/types';
 
@@ -50,14 +50,15 @@ const Carousel = forwardRef<CarouselHandles, CarouselProps>(({
                 <ScrollContainer
                     direction={direction}       
                     ref={scrollRef}
+                    items={items}
+                    renderItem={(item) => (
+                        <CarouselCard key={item.id} item={item} />
+                    )}
                     onScrollEnd={onReachEnd}
                     onScrollStateChange={(left, right) => {
                         setCanScrollLeft(left);
                         setCanScrollRight(right);
-                    }}>
-                    {items.map(item => (
-                        <CarouselCard key={item.id} item={item} />
-                    ))}
+                    }}> 
                 </ScrollContainer>
 
                 {direction === 'horizontal' && (canScrollRight || loading) && (
