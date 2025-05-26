@@ -141,9 +141,7 @@ const VirtualizedScrollContainer = forwardRef<
                         updateScrollState();
                     }}
                     style={{
-                        overflow: isVertical ? 'auto hidden' : 'hidden auto',
-                        [isVertical ? 'height' : 'width']: '100%',
-                        position: 'relative',
+                        [isVertical ? 'height' : 'width']: '100%', 
                     }}
                 >
                     <div

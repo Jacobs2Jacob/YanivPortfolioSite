@@ -13,6 +13,7 @@
     height: 375px;
     overflow-x: auto;
     overflow-y: hidden;
+    position:relative;
     scroll-behavior: smooth;
     padding: 0.5rem 0;
     scrollbar-width: none; /* Firefox */
