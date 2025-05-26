@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './SearchBar.module.css';
 import { useSearchBar } from '@/contexts/SearchBarContext';
 
@@ -20,6 +20,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
         setTerm(e.target.value);
         setSearchValue(e.target.value);
     };
+
+    useEffect(() => {
+        return () => {
+           setSearchValue('');
+        }
+    }, []);
 
     //const { dataMemoized: cocktails } = useCocktailQueryByName(debouncedTerm);
     //const [isOpen, setIsOpen] = useState(false);
